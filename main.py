@@ -70,7 +70,7 @@ def get_bls_data(series, start, end):
       df = pd.DataFrame()
       df_initial = pd.DataFrame(series)
       series_col = df_initial['seriesID'][0]
-      for i in range(0, len(df_initial) - 1):
+      for i in range(0, len(df_initial) - 0):
         df_row = pd.DataFrame(df_initial['data'][i])
         df_row['seriesID'] = series_col
         if 'code' not in str(df_row['footnotes']): 
@@ -88,9 +88,9 @@ def get_bls_data(series, start, end):
 
 
 
-def main():
+def data_to_xlsx(endpoint_file, output_file, start, end):
   #update the database given list of enpoints
-  with open('income_endpoints.json','r') as fin:
+  with open(endpoint_file,'r') as fin:
     words = json.loads(fin.read())
 
   endpoints = []
@@ -98,18 +98,19 @@ def main():
     endpoints.append(next(iter(ep)))
 
   print(endpoints)
-  #update_data(endpoints)
-  start = 2011
-  end = 2020
-  series = endpoints
 
-  df_list = get_bls_data(series=series, start=start, end=end)
-  writer = pd.ExcelWriter('bls2.xlsx', engine='xlsxwriter', options={'strings_to_numbers': True})
+
+
+  df_list = get_bls_data(series=endpoints, start=start, end=end)
+  writer = pd.ExcelWriter(output_file, engine='xlsxwriter', options={'strings_to_numbers': True})
   for endpoint, df in zip(endpoints, df_list):
 
     df.to_excel(writer, sheet_name=endpoint, index=False)
-    
+
   writer.save()
   
-  
+def main():
+
+  data_to_xlsx('income_endpoints.json', 'income.xlsx', 2011, 2020)
+
 main()
