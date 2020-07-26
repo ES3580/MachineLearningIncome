@@ -3,6 +3,10 @@ import tensorflow as tf
 
 
 
+def examine(workbook):
+  for sheet in pd.ExcelFile(workbook).sheet_names:
+    print(sheet)
+
 
 def get_compiled_model():
   model = tf.keras.Sequential([
@@ -16,9 +20,9 @@ def get_compiled_model():
                 metrics=['accuracy'])
   return model
 
-  model = get_compiled_model()
+  #model = get_compiled_model()
 
-
+'''
 df = pd.read_csv('file.csv')
 #df.head() prints top rows
 #df.dtypes prints datatypes of cols
@@ -30,3 +34,4 @@ dataset = tf.data.Dataset.from_tensor_slices((df.values, target.values))
 #df['thal'] = pd.Categorical(df['thal'])
 #df['thal'] = df.thal.cat.codes
 model.fit(train_dataset, epochs=3)
+'''

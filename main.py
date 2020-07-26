@@ -3,7 +3,7 @@ import json
 import requests
 import pandas as pd
 import xlsxwriter
-
+from machine import examine 
 def update_data(endpoints):
   #for each endpoint, query and store data in file
 
@@ -70,7 +70,7 @@ def get_bls_data(series, start, end):
       df = pd.DataFrame()
       df_initial = pd.DataFrame(series)
       series_col = df_initial['seriesID'][0]
-      for i in range(0, len(df_initial) - 0):
+      for i in range(0, len(df_initial) - 0): #-1 was here, if errors change 0 to 1
         df_row = pd.DataFrame(df_initial['data'][i])
         df_row['seriesID'] = series_col
         if 'code' not in str(df_row['footnotes']): 
@@ -111,6 +111,8 @@ def data_to_xlsx(endpoint_file, output_file, start, end):
   
 def main():
 
-  data_to_xlsx('income_endpoints.json', 'income.xlsx', 2011, 2020)
+  save_file = 'income.xlsx'
+  #data_to_xlsx('income_endpoints.json', save_file, 2011, 2020)
+  examine(save_file)
 
 main()
